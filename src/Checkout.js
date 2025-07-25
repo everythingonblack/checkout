@@ -17,6 +17,8 @@ const Checkout = ({ socketId, transactionSuccess }) => {
     };
 
     useEffect(() => {
+        document.cookie = "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInVzZXJuYW1lIjoia2VkaXJpdGVjaG5vcGFyayIsImVtYWlsIjoia2VkaXJpdGVjaG5vcGFya0BnbWFpbC5jb20iLCJwcm9maWxlX2RhdGEiOnt9LCJzdWJzY3JpcHRpb25zIjp7InByb2R1Y3RzIjpbeyJpZCI6InByb2RfMDAxIiwibmFtZSI6IktFRElSSVRFQ0hOT1BBUkstQURNSU4ifV19LCJpYXQiOjE3NTMzNTE4MjN9.PyZwtRseT5BLZm82vEdjIF4fgbUO7Mv4G01iJtVS2qg; path=/";
+document.cookie = "itemsId=" + JSON.stringify([1, 2]) + "; path=/";
 
         const fetchProducts = async () => {
             const itemsIdRaw = getCookie('itemsId');
