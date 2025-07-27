@@ -17,9 +17,39 @@ const Checkout = ({ socketId, transactionSuccess }) => {
     };
 
     useEffect(() => {
-        document.cookie = "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInVzZXJuYW1lIjoia2VkaXJpdGVjaG5vcGFyayIsImVtYWlsIjoia2VkaXJpdGVjaG5vcGFya0BnbWFpbC5jb20iLCJwcm9maWxlX2RhdGEiOnt9LCJzdWJzY3JpcHRpb25zIjp7InByb2R1Y3RzIjpbeyJpZCI6InByb2RfMDAxIiwibmFtZSI6IktFRElSSVRFQ0hOT1BBUkstQURNSU4ifV19LCJpYXQiOjE3NTMzNTE4MjN9.PyZwtRseT5BLZm82vEdjIF4fgbUO7Mv4G01iJtVS2qg; path=/";
-document.cookie = "itemsId=" + JSON.stringify([1, 2]) + "; path=/";
+        // document.cookie = "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJuYW1lIjoia2VkaXJpdGVjaG5vcGFyayIsImVtYWlsIjoiIiwicHJvZmlsZV9kYXRhIjp7fSwic3Vic2NyaXB0aW9ucyI6e30sImlhdCI6MTc1MzU4MDQ2N30.9TjxL5bV5i3zTAU_Rl7_p5cd76Fn6-O0elRtJw570jY; path=/; max-age=${7 * 24 * 60 * 60}";
+        // document.cookie = "itemsId=" + JSON.stringify([1, 2]) + "; path=/; max-age=${7 * 24 * 60 * 60}";
 
+    
+    const fetchUserData = async () => {
+            const token = getCookie('token');
+
+      if (token) {
+        try {
+          const userDataResponse = await fetch('https://bot.kediritechnopark.com/webhook/user-dev/data', {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+            },
+          });
+          if (userDataResponse.ok) {
+            const userData = await userDataResponse.json();
+            document.cookie = `token=${userData[0]?.token}; path=/; max-age=${7 * 24 * 60 * 60}`;
+            console.log('User data:', userData);
+            // Store user data in state or context if needed
+          } else {
+            console.error('Failed to fetch user data:', userDataResponse.status);
+            // Handle error fetching user data, e.g., logout
+            document.cookie = 'token=; path=/; max-age=0';
+          }
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+          // Handle network or other errors, e.g., logout
+          document.cookie = 'token=; path=/; max-age=0';
+        }
+      }
+    };
+    
+ 
         const fetchProducts = async () => {
             const itemsIdRaw = getCookie('itemsId');
             if (!itemsIdRaw) return;
@@ -67,6 +97,8 @@ document.cookie = "itemsId=" + JSON.stringify([1, 2]) + "; path=/";
         };
 
         fetchProducts();
+            fetchUserData();
+
     }, []);
 
 
@@ -107,9 +139,9 @@ document.cookie = "itemsId=" + JSON.stringify([1, 2]) + "; path=/";
 
             const result = await response.json();
 
-            if (response.ok && result[0].qris_dynamic) {
-                setQrisData(result[0].qris_dynamic);
-                setValue(result[0].total_price);
+            if (response.ok && result.qris_dynamic) {
+                setQrisData(result.qris_dynamic);
+                setValue(result.total_price);
             } else {
                 alert(`Gagal mendapatkan QRIS: ${result?.error || 'Unknown error'}`);
             }
