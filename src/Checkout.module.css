@@ -181,3 +181,60 @@
     max-width: 100%;
   }
 }
+
+.CheckmarkOverlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 255, 0.5);
+  width: 130px;
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.CheckmarkSvg {
+  width: 100px;
+  height: 100px;
+  display: block;
+}
+
+.CheckmarkCircle {
+  fill: none;
+  stroke: #4BB543;
+  stroke-width: 4;
+  stroke-dasharray: 157; /* 2πr where r = 25 */
+  stroke-dashoffset: 157;
+  transform: rotate(-90deg);
+  transform-origin: center;
+  animation: CircleFill 1s ease forwards;
+}
+
+.CheckmarkCheck {
+  fill: none;
+  stroke: #4BB543;
+  stroke-width: 4;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: DrawCheck 0.5s ease forwards;
+  animation-delay: 1s;
+}
+
+/* Circle fills in a clockwise motion */
+@keyframes CircleFill {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Checkmark is drawn after circle is full */
+@keyframes DrawCheck {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
