@@ -66,7 +66,7 @@ const Checkout = ({ socketId, transactionSuccess }) => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ itemsId: itemIds }),
+                body: JSON.stringify({ itemsId: itemIds, noParents: true }),
             })
                 .then((res) => res.json())
                 .then((data) => {
