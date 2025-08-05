@@ -104,10 +104,20 @@ const Checkout = ({ socketId, transactionSuccess }) => {
         setLoadingPay(true);
 
         try {
+            const urlParams = new URLSearchParams(window.location.search);
+            const newName = urlParams.get('new_name'); // Ambil dari URL asli
+            const setName = urlParams.get('set_name'); // Ambil dari URL asli
+
             const params = new URLSearchParams();
             itemIds.forEach((id) => params.append('itemsId', id));
             params.append('socketId', socketId);
-            // Jika butuh socketId bisa tambahkan di sini, misal: params.append('socketId', socketId);
+            if (newName) {
+                params.append('newName', newName);
+            }      
+             if (setName) {
+                params.append('setName', setName);
+            }           
+     
 
             const response = await fetch('https://bot.kediritechnopark.com/webhook/store-dev/pay', {
                 method: 'POST',
