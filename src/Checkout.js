@@ -61,7 +61,7 @@ const Checkout = ({ socketId, transactionSuccess }) => {
     // Fetch products
     useEffect(() => {
         if (itemIds && Array.isArray(itemIds) && itemIds.length > 0) {
-            fetch('https://bot.kediritechnopark.com/webhook/store-dev/products', {
+            fetch('https://bot.kediritechnopark.com/webhook/store-production/products', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -119,7 +119,7 @@ const Checkout = ({ socketId, transactionSuccess }) => {
             }           
      
 
-            const response = await fetch('https://bot.kediritechnopark.com/webhook/store-dev/pay', {
+            const response = await fetch('https://bot.kediritechnopark.com/webhook/store-production/pay', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
